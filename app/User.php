@@ -5,7 +5,6 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -25,22 +24,20 @@ class User extends Authenticatable
     public function mainPhoto() {
         return $this->hasMany('App\UserPhoto','user_id','id')->where( "main", 1 );
     }
-    public function friendTo() {
+    public function requestTo() {
         return $this->hasMany('App\Friend', 'friend_id', 'id')->where( "user_id", Auth::user()->id );
     }
-    public function friendFrom() {
+    public function requestFrom() {
         return $this->hasMany('App\Friend', 'user_id', 'id')->where( "friend_id", Auth::user()->id );
     }
-
     public function unreadMessages() {
-        return $this->hasMany('App\Chat', 'from_id', 'id')->where(['to_id' => Auth::user()->id]);
+        return $this->hasMany('App\Chat', 'from_id', 'id')->where(['to_id' => Auth::user()->id, 'notification' =>0]);
     }
-
-    public function friendToOnline() {
-        return $this->hasMany('App\Friend', 'friend_id', 'id')->where("user_id", Auth::user()->id);
+    public function onlineFriendTo() {
+        return $this->hasMany('App\Friend', 'friend_id', 'id')->where(["user_id" => Auth::user()->id, 'request' => '1']);
     }
-    public function friendFromOnline() {
-        return $this->hasMany('App\Friend', 'user_id', 'id')->where('friend_id', Auth::user()->id);
+    public function onlineFriendFrom() {
+        return $this->hasMany('App\Friend', 'user_id', 'id')->where(['friend_id' => Auth::user()->id, 'request' => '1']);
     }
 
 }

@@ -5,9 +5,9 @@
             @foreach($users as $user)
                 <div data-id="{{$user['id']}}"
                      class="user_container col-lg-4 col-md-4 col-sm-4 col-xs-12"
-                     @if(!empty($user['friend_to']) && $user['friend_to'][0]['request'] == 0) data-friend="from"
-                     @elseif(!empty($user['friend_from']) && $user['friend_from'][0]['request'] == 0) data-friend="to"
-                     @elseif(isset($user['friend_to'][0]['request']) == 1 || isset($user['friend_from'][0]['request']) == 1) data-friend="friend"
+                     @if(!empty($user['request_to']) && $user['request_to'][0]['request'] == 0) data-friend="from"
+                     @elseif(!empty($user['request_from']) && $user['request_from'][0]['request'] == 0) data-friend="to"
+                     @elseif(isset($user['request_to'][0]['request']) == 1 || isset($user['request_from'][0]['request']) == 1) data-friend="friend"
                      @else data-friend="empty" @endif>
                     <img class="img-responsive img-thumbnail"
                          src="@if(empty($user['main_photo'])){{asset('/images/no_profile_photo.png')}} @else {{$user['main_photo'][0]['photo']}}@endif"

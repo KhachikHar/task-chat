@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Auth;
 class Chat extends Model
 {
     public function userTo() {
-        return $this->belongsTo('App\User', 'to_id', 'id')->where('id', '!=', Auth::user()->id);
+        return $this->belongsTo('App\User', 'to_id', 'id');
     }
     public function userFrom() {
-        return $this->belongsTo('App\User', 'from_id', 'id')->where('id', '!=', Auth::user()->id);
+        return $this->belongsTo('App\User', 'from_id', 'id');
     }
 
     public function user() {

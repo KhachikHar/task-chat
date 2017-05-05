@@ -7,10 +7,10 @@
                     class="user_container col-lg-4 col-md-4 col-sm-4 col-xs-12 @if($request['request_notification'] == 0) main_photo @endif"
                     data-friend="to">
                     <img class="img-responsive img-thumbnail"
-                         src="@if(!empty($request['user_from']['main_photo'])){{$request['user_from']['main_photo'][0]['photo']}}@else{{asset('/images/no_profile_photo.png')}}@endif"
+                         src="@if(!empty($request['request_from']['main_photo'])){{$request['request_from']['main_photo'][0]['photo']}}@else{{asset('/images/no_profile_photo.png')}}@endif"
                          alt="user photo">
                     <div class='col-xs-12'>
-                        {{$request['user_from']['name']}}
+                        {{$request['request_from']['name']}}
                     </div>
                 </div>
             @endforeach

@@ -13,7 +13,7 @@ class FriendsController extends Controller
 {
     public function index(Request $request) {
         $id = Auth::user()->id;
-        $friends = Friend::with('userFrom.mainPhoto', 'userTo.mainPhoto')->
+        $friends = Friend::with('requestFrom.mainPhoto', 'requestTo.mainPhoto')->
                             where(['friend_id' => $id, 'request' => 1])->
                             orWhere(['user_id' => $id, 'request' => 1])->get()->toArray();
         return view('friends', ['friends' => $friends]);
@@ -78,7 +78,7 @@ class FriendsController extends Controller
 
     public function requests() {
         $authId = Auth::user()->id;
-        $requests = Friend::with('userFrom.mainPhoto')->where(['friend_id' => $authId, 'request' => 0])->get()->toArray();
+        $requests = Friend::with('requestFrom.mainPhoto')->where(['friend_id' => $authId, 'request' => 0])->get()->toArray();
         Friend::where(['request_notification' => 0, 'friend_id' => $authId])->update(['request_notification' => 1]);
         return view('friendRequests', ['requests' => $requests]);
     }

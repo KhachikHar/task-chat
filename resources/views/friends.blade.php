@@ -7,11 +7,11 @@
                      class="user_container col-lg-4 col-md-4 col-sm-4 col-xs-12"
                      data-friend="friend">
                     <img class="img-responsive img-thumbnail"
-                         src="@if(!empty($friend['user_to']) && !empty($friend['user_to']['main_photo'])){{$friend['user_to']['main_photo'][0]['photo']}}@elseif(!empty($friend['user_from']) && !empty($friend['user_from']['main_photo'])){{$friend['user_from']['main_photo'][0]['photo']}}@else{{asset('/images/no_profile_photo.png')}}@endif"
+                         src="@if(!empty($friend['request_to']) && !empty($friend['request_to']['main_photo'])){{$friend['request_to']['main_photo'][0]['photo']}}@elseif(!empty($friend['request_from']) && !empty($friend['request_from']['main_photo'])){{$friend['request_from']['main_photo'][0]['photo']}}@else{{asset('/images/no_profile_photo.png')}}@endif"
                          alt="user photo">
                     <div class='col-xs-12'>
-                        @if(!empty($friend['user_to'])) {{$friend['user_to']['name']}}
-                        @else {{$friend['user_from']['name']}} @endif
+                        @if(!empty($friend['request_to'])) {{$friend['request_to']['name']}}
+                        @else {{$friend['request_from']['name']}} @endif
                     </div>
                 </div>
             @endforeach

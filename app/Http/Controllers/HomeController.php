@@ -19,11 +19,9 @@ class HomeController extends Controller
         }
         $photo = UserPhoto::with('user')->where(['user_id' => $id, 'main' => 1])->get()->toArray();
         $friendRequests = count(Friend::where(['request_notification' => 0, 'friend_id' => $id])->get()->toArray());
-        $onlineFriends = User::with('friendFromOnline', 'friendToOnline', 'mainPhoto', 'unreadMessages')->
-                                has('friendFromOnline', '>', 0)->
-                                orHas('friendToOnline', '>', 0)->
-                                where('online', 1)->get()->toArray();
-
+        $onlineFriends = User::with('onlineFriendFrom', 'onlineFriendTo', 'mainPhoto', 'unreadMessages')->
+                            has('onlineFriendFrom')->where('online', 1)->
+                            orHas('onlineFriendTo')->where('online', 1)->get()->toArray();
         return view('home', ['photo' => $photo, 'friendRequests' => $friendRequests, 'onlineFriends' => $onlineFriends]);
     }
     public function newPhoto (Request $request) {

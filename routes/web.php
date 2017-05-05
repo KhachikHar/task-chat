@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/home/add/friend', 'FriendsController@addFriend')->name('add_friend');
         Route::post('/home/confirm/friend', 'FriendsController@confirmFriend')->name('confirm_friend');
         Route::post('/home/delete/friend/request', 'FriendsController@deleteFriendRequest')->name('confirm_friend_request');
+        Route::post('/home/send/message', 'ChatController@sendMessage')->name('send_message');
+        Route::post('/home/select/messages', 'ChatController@selectMessage')->name('select_message');
     });
 });
 

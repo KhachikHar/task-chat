@@ -7,16 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 class Friend extends Model
 {
-    public function userTo() {
+    public function requestTo() {
         return $this->belongsTo('App\User', 'friend_id', 'id')->where('id', '!=', Auth::user()->id);
     }
-    public function userFrom() {
+    public function requestFrom() {
         return $this->belongsTo('App\User', 'user_id', 'id')->where('id', '!=', Auth::user()->id);
     }
-    public function userToOnline() {
-        return $this->belongsTo('App\User', 'friend_id', 'id')->where([['id', '!=', Auth::user()->id], ['online', 1]]);
-    }
-    public function userFromOnline() {
-        return $this->belongsTo('App\User', 'user_id', 'id')->where([['id', '!=', Auth::user()->id], ['online', 1]]);
-    }
+
 }

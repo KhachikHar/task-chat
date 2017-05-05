@@ -5,7 +5,56 @@ $.ajaxSetup({
 });
 
 $(document).ready(function() {
-    var ref_uri = window.location.pathname.substr(1).split('/');
+    var url = window.location.pathname.substr(1).split('/');
+
+    if(url[0] == 'home' && url[1] == 'chat'){
+        var friend_id = url[2];
+        var main_photo = '';
+        var position = '';
+        var name = '';
+        var message = '';
+        setInterval(function(){
+            $.ajax({
+                method: "POST",
+                url: '/home/select/messages',
+                data: {
+                    friend_id: friend_id
+                },
+                success: function(result) {
+                    if(result.success) {
+                        $.each (result[0], function(){
+                            name = this.user_from.name;
+                            message = this.message;
+                            if(this.user_from.id == friend_id){
+                                position = 'left';
+                            } else {
+                                position = 'right';
+                            }
+                            if(this.user_from.main_photo.length > 0){
+                                main_photo = this.user_from.main_photo[0].photo;
+                            } else {
+                                main_photo = '/images/no_profile_photo.png';
+                            }
+                            $('.messages_container').append('<div class="message_container col-xs-12 '+position+'">' +
+                                    '<div class="message_and_name col-xs-10">' +
+                                        '<span class="name">'+name+'</span>' +
+                                        '<span class="message">'+message+'</span>' +
+                                    '</div>' +
+                                    '<div class="user_photo col-xs-2">' +
+                                        '<img class="img-responsive" src="'+main_photo+'"> ' +
+                                    '</div>' +
+                                '</div>');
+                        });
+                    } else {
+                        console.log('Something went wrong, please try again with correct data.');
+                    }
+                },
+                error: function () {
+                    console.log('There were some error, while trying to make request.');
+                }
+            });
+        },2500);
+    }
 
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -116,7 +165,7 @@ $(document).ready(function() {
                    '<button type="button" class="btn btn-success col-xs-6 confirm_friend_request">confirm friend request</button>' +
                '</div>')
         } else {
-           modal_header.html('<button type="button" class="btn btn-block btn-primary col-xs-6 send_message">Chat</button>')
+           modal_header.html('<a href="/home/chat/'+id+'" type="button" class="btn btn-block btn-primary col-xs-6 send_message">Chat</a>')
         }
         if($(this).hasClass('main_photo')){
             $(this).removeClass('main_photo');
@@ -154,7 +203,7 @@ $(document).ready(function() {
                 if(result.success) {
                     this_container.data('friend', 'empty');
                     $('#add_friend_modal').modal('hide');
-                    if(ref_uri[1] == 'friend' && ref_uri[2] == 'requests'){
+                    if(url[1] == 'friend' && url[2] == 'requests'){
                         this_container.remove();
                         if($('.user_container').length == 0){
                             window.location.href = '/home';
@@ -192,4 +241,30 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#send_message').click(function () {
+        var message = $('#message').val().replace(/\s+/g,' ').trim();
+        var friend_id = $(this).data('id');
+        if(message != ''){
+            $.ajax({
+                method: "POST",
+                url: '/home/send/message',
+                data: {
+                    message: message,
+                    friend_id: friend_id
+                },
+                success: function(result) {
+                    if(result.success) {
+                        $('#message').val('');
+                    } else {
+                        alert('Something went wrong, please try again with correct data.');
+                    }
+                },
+                error: function () {
+                    alert('There were some error, while trying to make request.');
+                }
+            });
+        }
+    });
+
 });
