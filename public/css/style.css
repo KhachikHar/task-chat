@@ -1,0 +1,118 @@
+.modal-content {
+    border-radius: 2px !important;
+}
+.photo_container, .user_container {
+    position: relative;
+    cursor: pointer;
+    margin: 0 auto 10px auto;
+    width: 180px;
+    height: 200px;
+}
+.photo_container>img {
+    object-fit: cover;
+    border-radius: 2px;
+    height: 100%;
+    width: 100%;
+}
+.user_container>img {
+    object-fit: cover;
+    border-radius: 2px;
+    height: 90%;
+    width: 100%;
+}
+.upload_new_photo {
+    position: absolute;
+    cursor: pointer;
+    z-index: 1;
+    background-color: rgba(88, 196, 167, 0.6);
+    bottom: 5px;
+    left: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #333;
+    padding: 10px 15px;
+    width: calc(100% - 10px);
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+.photo_container:hover .upload_new_photo {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: all .6s ease-in-out;
+    -o-transition: all .6s ease-in-out;
+    transition: all .6s ease-in-out;
+}
+.btn-transparent {
+    background-color: transparent;
+}
+.upload_photo_label {
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 600;
+    border: 0 !important;
+    padding: 20px;
+    width: 100%;
+}
+.save_photo {
+    float: right;
+}
+#upload_photo_modal .modal-footer {
+    display: none;
+}
+.upload_photo_container {
+    position: relative;
+    display: none;
+    margin: 0 auto;
+    width: 80%;
+    height: 100%;
+}
+.photo {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+}
+.remove_upload_photo {
+    position: absolute;
+    cursor: pointer;
+    display: block;
+    border-radius: 1000px;
+    background-color: rgba(255, 0, 0, 0.5);
+    padding: 5px;
+    right: 0;
+    top: 0;
+}
+.new_photo {
+    cursor: pointer;
+}
+
+.main_photo>img {
+    background-color: rgba(88, 196, 167, 0.6);
+    border: 1px solid rgba(88, 196, 167, 0.6);
+}
+
+.online_user_container {
+    width: 100%;
+    height: 60px;
+    padding: 0;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border: 1px solid silver;
+}
+.online_user_photo { height:100%; padding-left: 0 !important; }
+.online_user_photo>img { width: 100%; height:100%; object-fit: cover; }
+.online_user_name { line-height: 4 }
+.unread_messages {
+    background-color: red;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 0;
+    height: 100%;
+    font-size: 20px;
+    line-height: 3;
+    text-align: center;
+}
+
