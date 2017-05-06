@@ -6,53 +6,65 @@ $.ajaxSetup({
 
 $(document).ready(function() {
     var url = window.location.pathname.substr(1).split('/');
+    var select_messages = true;
 
-    if(url[0] == 'home' && url[1] == 'chat'){
+    function selectMessages() {
         var friend_id = url[2];
         var main_photo = '';
         var position = '';
         var name = '';
         var message = '';
-        setInterval(function(){
-            $.ajax({
-                method: "POST",
-                url: '/home/select/messages',
-                data: {
-                    friend_id: friend_id
-                },
-                success: function(result) {
-                    if(result.success) {
-                        $.each (result[0], function(){
-                            name = this.user_from.name;
-                            message = this.message;
-                            if(this.user_from.id == friend_id){
-                                position = 'left';
-                            } else {
-                                position = 'right';
-                            }
-                            if(this.user_from.main_photo.length > 0){
-                                main_photo = this.user_from.main_photo[0].photo;
-                            } else {
-                                main_photo = '/images/no_profile_photo.png';
-                            }
-                            $('.messages_container').append('<div class="message_container col-xs-12 '+position+'">' +
-                                    '<div class="message_and_name col-xs-10">' +
-                                        '<span class="name">'+name+'</span>' +
-                                        '<span class="message">'+message+'</span>' +
-                                    '</div>' +
-                                    '<div class="user_photo col-xs-2">' +
-                                        '<img class="img-responsive" src="'+main_photo+'"> ' +
-                                    '</div>' +
-                                '</div>');
-                        });
-                    } else {
-                        console.log('Something went wrong, please try again with correct data.');
-                    }
-                },
-                error: function () {
-                    console.log('There were some error, while trying to make request.');
+        select_messages = false;
+        $.ajax({
+            method: "POST",
+            url: '/home/select/messages',
+            data: {
+                friend_id: friend_id
+            },
+            success: function(result) {
+                if(result.success) {
+                    $.each (result[0], function(){
+                        name = this.user_from.name;
+                        message = this.message;
+                        if(this.user_from.id == friend_id){
+                            position = 'left';
+                        } else {
+                            position = 'right';
+                        }
+                        if(this.user_from.main_photo.length > 0){
+                            main_photo = this.user_from.main_photo[0].photo;
+                        } else {
+                            main_photo = '/images/no_profile_photo.png';
+                        }
+                        $('.messages_container').append('<div class="message_container col-xs-12 '+position+'">' +
+                            '<div class="message_and_name col-xs-10">' +
+                            '<span class="name">'+name+'</span>' +
+                            '<span class="message">'+message+'</span>' +
+                            '</div>' +
+                            '<div class="user_photo col-xs-2">' +
+                            '<img class="img-responsive" src="'+main_photo+'"> ' +
+                            '</div>' +
+                            '</div>');
+                    });
+                    select_messages = true;
+                } else {
+                    console.log('Something went wrong, please try again with correct data.');
+                    select_messages = true;
                 }
-            });
+            },
+            error: function () {
+                console.log('There were some error, while trying to make request.');
+                select_messages = true;
+            }
+        });
+
+    }
+
+    if(url[0] == 'home' && url[1] == 'chat'){
+        setInterval(function(){
+            if(select_messages == true) {
+                selectMessages();
+            }
         },2500);
     }
 
@@ -256,6 +268,10 @@ $(document).ready(function() {
                 success: function(result) {
                     if(result.success) {
                         $('#message').val('');
+                        if(select_messages = true) {
+                            select_messages = false;
+                            selectMessages();
+                        }
                     } else {
                         alert('Something went wrong, please try again with correct data.');
                     }
